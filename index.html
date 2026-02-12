@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Try Out Bahasa Indonesia SMP - 30 Soal</title>
+    
+    
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 850px; width: 100%; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 8px solid #6c5ce7; }
+        h1 { color: #6c5ce7; text-align: center; }
+        .section-title { background: #6c5ce7; color: white; padding: 12px 20px; border-radius: 10px; margin: 30px 0 15px 0; font-weight: bold; }
+        .stimulus { background: #f8f9ff; padding: 15px; border-radius: 10px; border: 1px solid #dcdde1; margin-bottom: 15px; font-style: normal; color: #2f3640;  }
+        .soal{ font-size: 1.1em; margin-bottom: 15px; font-weight: 400; }
+        .opsi { display: block; margin: 8px 0; cursor: pointer; padding: 10px; border: 1px solid #eee; border-radius: 8px; }
+        .opsi:hover { background-color: #f9f9ff; border-color: #6c5ce7; }
+        .percakapan { padding-left: 65px;   /* Memberikan ruang di kiri */
+                        text-indent: -65px;  /* Menarik baris pertama kembali ke kiri */
+                        margin-bottom: 5px;  /* Jarak antar baris tokoh */
+                        line-height: 1.5;    /* Agar teks tidak terlalu rapat */
+                    }
+        .nama-tokoh {font-weight: bold;   /* Menebalkan nama tokoh */}
+       
+        /* Kelas untuk Judul Teks */
+.judul-teks {
+    text-align: center;      /* Posisi Tengah */
+    font-weight: bold;       /* Huruf Tebal */
+    text-transform: uppercase; /* Otomatis Huruf Kapital Semua */
+    margin-bottom: 15px;     /* Jarak antara judul dan teks */
+    color: #2d3436;
+}
+
+/* Kelas untuk Isi Paragraf */
+.teks-rapi {
+    text-align: justify;     /* Rata Kanan Kiri */
+    text-indent: 40px;       /* Baris pertama menjorok ke dalam (Inden) */
+    line-height: 1.6;        /* Jarak antar baris agar nyaman dibaca */
+    margin-bottom: 10px;     /* Jarak antar paragraf */
+}
+
+
+        /* Tabel Pernyataan */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; text-align: center; }
+        .center { text-align: center; width: 60px; }
+
+        /* Tabel Soal */
+        .table-soal { width: 80%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background-color: #a5d9fce2; text-align: center; }
+        .center { text-align: center; width: 60px; }
+
+        #btn-selesai { background: #27ae60; color: white; border: none; padding: 20px; border-radius: 10px; font-size: 1.2em; cursor: pointer; width: 100%; font-weight: bold; margin-top: 20px; }
+        #hasil-akhir { display: none; background: white; padding: 40px; border-radius: 20px; text-align: center; border: 5px solid #27ae60; }
+        
+ /* Bungkus utama untuk membagi kiri (sidebar) dan kanan (soal) */
+.main-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-width: 1200px; /* Diperlebar sedikit agar muat sidebar + soal */
+    width: 100%;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* Sidebar Navigasi */
+.sidebar {
+    width: 220px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 20px; /* Biar sidebar tetap kelihatan saat di-scroll ke bawah */
+    border-top: 5px solid #863ff0 ;
+}
+
+/* Grid untuk nomor soal */
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 kolom nomor */
+    gap: 8px;
+    margin-top: 15px;
+}
+
+/* Kotak Nomor */
+.nav-item {
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.85em;
+    cursor: pointer;
+    background: #f9f9f9;
+    transition: 0.3s;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Warna kalau sudah diisi */
+.nav-item.filled {
+    background-color: #27ae60 !important;
+    color: white !important;
+    border-color: #27ae60 !important;
+}
+
+.nav-item:hover {
+    border-color: #27ae60 ;
+    color: #27ae60 ;
+}
+
+/* Penyesuaian Container Soal agar pas di samping sidebar */
+.container {
+    flex: 1; /* Biar dia mengambil sisa ruang yang ada */
+    max-width: 850px;
+    margin: 0; /* Hapus margin auto karena sudah diatur main-wrapper */
+}
+
+/* Responsif: Kalau buka di HP, sidebar pindah ke atas soal */
+@media (max-width: 900px) {
+    .main-wrapper {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        box-sizing: border-box;
+    }
+    .nav-grid {
+        grid-template-columns: repeat(10, 1fr); /* Di HP jadi lebih lebar kesamping */
+    }
+}
+    </style>
+</head>
+<body>    
+   <div style="background-color: #6c5ce7; padding: 30px 20px; border-radius: 15px; text-align: center; margin: 0 auto 30px auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 1100px;">
+    
+    <img src="logo-web.png" alt="Logo Sekolah" style="width: 200px; height: auto; margin-bottom: 15px; filter: brightness(0) invert(1);">
+    
+    <div style="color: white;">
+        <h1 style="margin: 0; font-size: 26px; color: white; border: none; letter-spacing: 1px;">TRY OUT TKA BAHASA INDONESIA </h1>
+        <p style="margin: 5px 0 0 0; font-size: 18px; opacity: 0.9; font-weight: 300;">Tahun Pelajaran 2025/2026</p>
+    </div>
+  </div>
+
+<div class="main-wrapper">  
+    <div id="hasil-akhir" style="display: none; width: 100%; max-width: 850px; margin-bottom: 20px;">
+        <div class="card" style="text-align: center; border-left: 8px solid #2ecc71;">
+            <h2 style="color: #27ae60;">Ujian Selesai!</h2>
+            <p>Halo <span id="res-nama" style="font-weight:bold;"></span>, berikut hasil Anda:</p>
+            <div id="skor-teks" style="font-size: 4em; font-weight: bold; color: #2c3e50; margin: 10px 0;">0</div>
+            <p style="color: #7f8c8d;">Data nilai telah berhasil dikirim ke server.</p>
+            <button onclick="resetUjian()" style="padding: 12px 25px; background: #6c5ce7; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 15px;">
+                MASUKKAN SISWA BARU
+            </button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div id="timer-box" style="text-align: center; margin-bottom: 20px; padding: 10px; border: 2px solid #e74c3c; border-radius: 10px; background: #fff5f5;">
+    <div style="font-size: 0.8em; color: #e74c3c; font-weight: bold; text-transform: uppercase;">Sisa Waktu</div>
+    <div id="waktu-mundur" style="font-size: 1.5em; font-weight: bold; color: #2c3e50;">00:00:00</div>
+    </div>
+            <h3 style="margin:0; font-size:1.1em; color:#6c5ce7;">Navigasi Soal</h3>
+            <div class="nav-grid" id="nav-grid"></div>
+            <div style="margin-top:15px; font-size:0.75em; color:#777;">
+                <span style="display:inline-block; width:10px; height:10px; background:#27ae60; border-radius:2px;"></span> Sudah dikerjakan
+            </div>
+        </div>     
+<div class="container" id="quiz-content">
+    <div class="card">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="nama-siswa" placeholder="Nama Lengkap" style="flex: 2; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+        <input type="text" id="nis-siswa" placeholder="NIS" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+        <select id="kelas-siswa" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <option value="">Pilih Kelas</option>
+            <option value="9 Abu Bakar"> 9 Abu Bakar</option>
+            <option value="9 Umar Bin Khattab">9 Umar bin Khattab</option>
+            <option value="9 Utsman Bin Affan">9 Utsman Bin Affan</option>
+            <option value="9 Ali Bin Abuthalib">9 Ali Bin Abuthalib</option>
+        </select>
+     </div>
+    </div>
+
+         
+    <div class="card"> 
+        <div class="soal"> 1. Perhatikan dua teks ulasan berikut  
+            <br> <b>1. Teks Ulasan 1 </b>
+            <br> <img src="g1_teksulasan_pantaigajah.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+            <br><br> <b> Teks ulasan 2 </b>
+            <br> <img src="g2_teksulasan2.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+
+            <br> <b>Daftar Istilah:</b>
+            <ul>
+                <li> <i>Hidden gem</i>: Tempat indah yang belum banyak diketahui orang. </li>
+                <li> <i>Bucket list:</i> Daftar hal yang ingin dilakukan.</li>
+                <li><i>Golden hour:</i> Waktu matahari terbit atau menjelang senja dengan cahaya keemasan.</li>
+                <li><i>Vibes: </i>Suasana atau perasaan suatu tempat.</li>
+                <li><i>Estetis:</i> Indah dan enak dipandang.</li>
+            </ul>
+               
+            Kosakata yang menggambarkan keserasian suara deburan alam pada teks ulasan ke-1 ditunjukkan pada frasa ....
+
+            <label class="opsi"><input type="radio" name="q1" value="A"> alternatif wisata </label>
+            <label class="opsi"><input type="radio" name="q1" value="B"> kanvas alam </label>
+            <label class="opsi"><input type="radio" name="q1" value="C"> panggung cahaya </label>
+            <label class="opsi"><input type="radio" name="q1" value="D"> harmoni alam </label>
+        </div>
+    </div>
+   
+
+      
+    <div class="card">
+        <div class="soal">2. Perhatikan dua teks ulasan berikut: 
+            <br> <b> Teks Ulasan 1 </b>
+            <br> <img src="g1_teksulasan_pantaigajah.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+            <br><br> <b> Teks ulasan 2 </b>
+            <br> <img src="g2_teksulasan2.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+
+            <br> <b>Daftar Istilah:</b>
+            <ul>
+                <li> <i>Hidden gem</i>: Tempat indah yang belum banyak diketahui orang. </li>
+                <li> <i>Bucket list:</i> Daftar hal yang ingin dilakukan.</li>
+                <li><i>Golden hour:</i> Waktu matahari terbit atau menjelang senja dengan cahaya keemasan.</li>
+                <li><i>Vibes: </i>Suasana atau perasaan suatu tempat.</li>
+                <li><i>Estetis:</i> Indah dan enak dipandang.</li>
+            </ul>
+            Apa saja perbedaan informasi yang ada pada kedua teks tersebut?
+           <br> <span style="color: rgb(0, 170, 255); font-weight: bold;">Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q2" value="1"> Kemudahan akses. </label>
+        <label class="opsi"><input type="checkbox" name="q2" value="2"> Fasilitas yang tersedia.</label>
+        <label class="opsi"><input type="checkbox" name="q2" value="3"> Tempat untuk berfoto.</label>
+        <label class="opsi"><input type="checkbox" name="q2" value="4"> Keindahan saat senja.</label>
+        </div>
+    </div>
+
+   
+    <div class="card">
+        <div class="soal"> 3. Perhatikan dua teks ulasan berikut: 
+            <br> <b> Teks Ulasan 1 </b>
+            <br> <img src="g1_teksulasan_pantaigajah.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+            <br><br> <b> Teks ulasan 2 </b>
+            <br> <img src="g2_teksulasan2.png" alt="teks ulasan 1" style="width: 100%;max-width: 500px; margin: 10px 0;">
+
+            <br> <b>Daftar Istilah:</b>
+            <ul>
+                <li> <i>Hidden gem</i>: Tempat indah yang belum banyak diketahui orang. </li>
+                <li> <i>Bucket list:</i> Daftar hal yang ingin dilakukan.</li>
+                <li><i>Golden hour:</i> Waktu matahari terbit atau menjelang senja dengan cahaya keemasan.</li>
+                <li><i>Vibes: </i>Suasana atau perasaan suatu tempat.</li>
+                <li><i>Estetis:</i> Indah dan enak dipandang.</li>
+            </ul>
+            Perhatikan percakapan Banu dan Komar berikut:
+            
+                <p class="percakapan">
+                    <span class="nama-tokoh">Banu:</span> "Kemarin aku melihatmu sedang duduk sendirian di taman sambil membaca buku yang sangat tebal sekali sampai-sampai kamu tidak sadar aku lewat di depanmu."
+                </p>
+
+                <p class="percakapan">
+                    <span class="nama-tokoh">Komar:</span> "Oh, itu pasti buku biografi pahlawan yang baru kubeli kemarin lusa di toko buku dekat terminal lama karena aku sangat penasaran dengan sejarah hidupnya."
+                </p>
+
+           Mengapa penyataan Banu lebih tepat untuk menggambarkan keunggulan teks ulasan kedua yang tidak ada pada teks ulasan pertama.
+            <br><span style="color: blue;font-weight: bold;">Tentukan Benar atau Salah untuk setiap pernyataan berikut! </span>
+        
+        <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td> Gaya penyajian teks menggunakan bahasa nonformal sehingga lebih santai.</td><td class="center"><input type="radio" name="q3_1" value="B"></td><td class="center"><input type="radio" name="q3_1" value="S"></td></tr>
+            <tr><td> Penyajian gambar pada teks yang membuat pembaca lebih tertarik membaca. </td><td class="center"><input type="radio" name="q3_2" value="B"></td><td class="center"><input type="radio" name="q3_2" value="S"></td></tr>
+            <tr><td> Akhir ulasan dilengkapi kalimat ajakan kepada pembaca untuk mengunjungi pantai.</td><td class="center"><input type="radio" name="q3_3" value="B"></td><td class="center"><input type="radio" name="q3_3" value="S"></td></tr>
+        </table>
+    </div>
+    </div>
+
+    <div class="card">
+        <div class="soal">4. Bacalah puisi berikut: 
+            <br> <img src="g3_puisi-Peremupuan.png" alt="teks ulasan 1" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Pilihan kata mana saja yang menunjukkan latar waktu pada puisi tersebut?
+            <br> <span style="color: rgb(0, 170, 255);">Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q4" value="1"> Bukit-bukit desa </label>
+        <label class="opsi"><input type="checkbox" name="q4" value="2"> Sebelum hari bermula</label>
+        <label class="opsi"><input type="checkbox" name="q4" value="3"> Akar-akar yang melata</label>
+        <label class="opsi"><input type="checkbox" name="q4" value="4"> Berlomba dengan surya</label>
+     </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 5.Bacalah puisi berikut: 
+            <br> <img src="g3_puisi-Peremupuan.png" alt="teks ulasan 1" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Apa makna <i>merebut hidup di pasar-pasar kota</i> pada teks puisi tersebut?
+
+            <label class="opsi"><input type="radio" name="q5" value="A"> Kegigihan dan perjuangan perempuan dalam bekerja.</label>
+            <label class="opsi"><input type="radio" name="q5" value="B"> Keuletan dan pencapaian seseorang dalam bekerja. </label>
+            <label class="opsi"><input type="radio" name="q5" value="C"> Aktivitas dan keseharian perempuan yang bekerja di pasar. </label>
+            <label class="opsi"><input type="radio" name="q5" value="D"> Tanggung jawab dan kewajiban perempuan pada keluarga. </label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 6. Bacalah puisi berikut: 
+            <br> <img src="g3_puisi-Peremupuan.png" alt="teks ulasan 1" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Setelah membaca puisi tersebut, tiga murid berpendapat sebagai berikut:
+            <p class="percakapan">
+                    <span class="nama-tokoh">Dina</span>: "Wah, ternyata banyak perempuan hebat ya. Mereka bekerja penuh semangat!"
+            </p>    
+            <p class="percakapan">  
+                    <span class="nama-tokoh">Mira</span>: "Iya, mereka rela bangun pagi-pagi untuk bekerja."
+            </p>
+            <p class="percakapan"> 
+                   <span class="nama-tokoh"> Tika</span>: "Tapi, kasihan ya mereka pasti lelah setelah seharian bekerja."
+            </p>
+             
+             Pendapat siapa yang tepat untuk menggambarkan suasana haru yang muncul setelah membaca puisi tersebut?
+    
+            <br><span style="color: blue;">Tentukan <b>setuju</b> atau <b>tidak setuju</b> untuk setiap pernyataan berikut! </span>
+       
+
+        <table>
+            <tr><th> Pernyataan</th><th>Setuju</th><th>Tidak Setuju</th></tr>
+            <tr><td> Dina karena menunjukkan kekagumannya kepada para perempuan yang bekerja. </td><td class="center"><input type="radio" name="q6_1" value="B"></td><td class="center"><input type="radio" name="q6_1" value="S"></td></tr>
+            <tr><td> Mira karena pendapatnya juga senada dengan pendapat yang disampaikan Dina. </td><td class="center"><input type="radio" name="q6_2" value="B"></td><td class="center"><input type="radio" name="q6_2" value="S"></td></tr>
+            <tr><td> Tika karena pendapatnya menunjukkan rasa empati terhadap perempuan pekerja.</td><td class="center"><input type="radio" name="q6_3" value="B"></td><td class="center"><input type="radio" name="q6_3" value="S"></td></tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 7. Perhatikanlah artikel berikut ini:
+            <br> <img src="g4_babirusa.png" alt="babirusa" style="width: 100%;max-width: 500px;margin: 10px 0;">
+            <br> Sumber: 
+            <br> <span style="color: blue;" >https://kumparan.com/kumparansains/mengenal-babi-rusa-hewan-langka-yang-hanya-ada-di-sulawesi-1tkPzp5uAVY/2 </span>
+            <br> Apa jenis umbi-umbian yang menjadi makanan babirusa?
+            <br> <span style="color: rgb(0, 170, 255);">Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q7" value="1"> Kilo. </label>
+        <label class="opsi"><input type="checkbox" name="q7" value="2"> Rebung. </label>
+        <label class="opsi"><input type="checkbox" name="q7" value="3"> Ulat.  </label>
+        <label class="opsi"><input type="checkbox" name="q7" value="4"> Tunas globa. </label>
+     </div>
+    </div>
+
+    <div class="card">
+        <div class="soal">8. Perhatikanlah artikel berikut ini:
+            <br> <img src="g4_babirusa.png" alt="babirusa" style="width: 100%;max-width: 500px;margin: 10px 0;">
+            <br> Sumber: 
+            <br> <span style="color: blue;" >https://kumparan.com/kumparansains/mengenal-babi-rusa-hewan-langka-yang-hanya-ada-di-sulawesi-1tkPzp5uAVY/2 </span>
+            <br>Babirusa adalah hewan unik yang ditemukan di Pulau Sulawesi. 
+            <br>Pernyataan mana yang mendukung kalimat tersebut?
+            <br><span style="color: blue;">Klik Pada pilihan Benar atau Salah untuk setiap pernyataan berikut! </span>
+        
+
+        <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td> Babirusa betina di Pulau Sulawesi memiliki taring seperti babirusa jantan. </td><td class="center"><input type="radio" name="q8_1" value="B"></td><td class="center"><input type="radio" name="q8_1" value="S"></td></tr>
+            <tr><td> Babirusa hidup di hutan hujan dataran rendah di Pulau Sulawesi. </td><td class="center"><input type="radio" name="q8_2" value="B"></td><td class="center"><input type="radio" name="q8_2" value="S"></td></tr>
+            <tr><td> Babirusa di Pulau Sulawesi memiliki suara yang sangat khas.</td><td class="center"><input type="radio" name="q8_3" value="B"></td><td class="center"><input type="radio" name="q8_3" value="S"></td></tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 9. Perhatikanlah artikel berikut ini:
+            <br> <img src="g4_babirusa.png" alt="babirusa" style="width: 100%;max-width: 500px;margin: 10px 0;">
+            <br> Sumber: 
+            <br> <span style="color: blue;" >https://kumparan.com/kumparansains/mengenal-babi-rusa-hewan-langka-yang-hanya-ada-di-sulawesi-1tkPzp5uAVY/2 </span>
+            <br> Apa dampak yang terjadi jika habitat babirusa terus terancam?
+
+            <br> <span style="color: rgb(0, 170, 255);">Pilihlah jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q9" value="1"> Populasi babirusa akan berkurang akibat aktivitas manusia. </label>
+        <label class="opsi"><input type="checkbox" name="q9" value="2"> Babirusa akan pindah ke dataran tinggi yang lebih aman. </label>
+        <label class="opsi"><input type="checkbox" name="q9" value="3"> Flora yang menjadi makanan utama babirusa bisa terpengaruh.  </label>
+        <label class="opsi"><input type="checkbox" name="q9" value="4"> Terjadi peningkatan konflik antara manusia dan babirusa. </label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 10. Perhatikan info grafis berikut ini: 
+            <br> <img src="G5_tasperca.png" alt="tas tangan" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Sumber:
+            <br><span style="color: blue;font-size: small;">
+                https://liberty-society.com/id/blogs/blog-1/cara-membuat-tas-dari-kain-perca
+                https://kumparan.com/kabar-harian/mengenal-kerajinan-dari-limbah-kain-perca-dan-cara-membuatnya-1xIsfl2wgX8/4
+		    </span>
+            <br> <br> Benda apa saja yang digunakan sebagai alat dalam teks tersebut?
+            <br> <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+        
+
+        <label class="opsi"><input type="checkbox" name="q10" value="1"> Ritsleting.  </label>
+        <label class="opsi"><input type="checkbox" name="q10" value="2"> Gunting. </label>
+        <label class="opsi"><input type="checkbox" name="q10" value="3"> Jarum.  </label>
+        <label class="opsi"><input type="checkbox" name="q10" value="4"> Busa tipis. </label>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 11. Perhatikan info grafis berikut ini: 
+            <br> <img src="G5_tasperca.png" alt="tas tangan" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Sumber:
+            <br><span style="color: blue;font-size: small;">
+                https://liberty-society.com/id/blogs/blog-1/cara-membuat-tas-dari-kain-perca
+                https://kumparan.com/kabar-harian/mengenal-kerajinan-dari-limbah-kain-perca-dan-cara-membuatnya-1xIsfl2wgX8/4
+		    </span>
+            <br> <br> Kata manakah yang menunjukkan bahwa kain perca masih bisa diolah?
+            <br> <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+        
+
+        <label class="opsi"><input type="checkbox" name="q11" value="1"> Bermanfaat. </label>
+        <label class="opsi"><input type="checkbox" name="q11" value="2"> Siap digunakan. </label>
+        <label class="opsi"><input type="checkbox" name="q11" value="3"> Bernilai ekonomi.  </label>
+        <label class="opsi"><input type="checkbox" name="q11" value="4"> Lebih menarik. </label>
+    </div>
+    </div>
+
+    <div class="card">
+        <div class="soal"> 12. Perhatikan info grafis berikut ini: 
+            <br> <img src="G5_tasperca.png" alt="tas tangan" style="width: 100%;max-width: 400px; margin: 10px 0;">
+            <br> Sumber:
+            <br><span style="color: blue;font-size: small;">
+                https://liberty-society.com/id/blogs/blog-1/cara-membuat-tas-dari-kain-perca
+                https://kumparan.com/kabar-harian/mengenal-kerajinan-dari-limbah-kain-perca-dan-cara-membuatnya-1xIsfl2wgX8/4
+		    </span>
+            <br> <br> Kata manakah yang menunjukkan bahwa kain perca masih bisa diolah?
+            <br> <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+            <label class="opsi"><input type="radio" name="q12" value="A"> Tas akan menjadi lebih berat. </label>
+            <label class="opsi"><input type="radio" name="q12" value="B"> Tas menjadi kurang empuk. </label>
+            <label class="opsi"><input type="radio" name="q12" value="C"> Tas tidak bisa digunakan. </label>
+            <label class="opsi"><input type="radio" name="q12" value="D"> Tas akan mudah rusak. </label>
+        
+        </div>
+    </div>
+
+    <div class="card">  
+        <div class="soal"> 13. Perhatikan Cerita Berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">  Pelari Terakhir</div> 
+                <p class="teks-rapi"> 
+                Lomba maraton di kotaku biasanya diadakan setiap musim panas. Semua jalan raya yang dilalui para pelari akan ditutup. Hanya ambulans yang bisa melintas. Tugasku mengikuti pelari dari belakang sebagai petugas medis. Pak sopir dan aku berada di dalam mobil ambulans. Kami harus tetap berada di belakang pelari terakhir sampai garis finis.
+                <br> <br> Tanda memulai maraton terdengar. Para pelari terdepan mulai menjauh dari pandangan kami. Mataku tertuju pada wanita berbaju putih longgar dan celana biru.
+                <br> <br> "Pak, lihatlah itu," kataku sambil menunjuk wanita tersebut di depan kami.
+                <br><br> Kami sadar bahwa dia akan menjadi "pelari terakhir". Rambutnya beruban, postur tubuhnya tidak lagi tegap, dan kakinya sedikit pincang. Berjalan pun sudah tampak sulit. 
+                <br> <br> Pak sopir dan aku memperhatikan wanita itu. Kami akan bergerak maju sedikit. Lalu berhenti menjaga jarak darinya. Kemudian, kami maju lagi untuk terus mengikuti langkahnya. Aku ingin menghentikannya. Namun, pada saat yang sama, aku juga berdoa agar dia terus maju. 
+                <br> <br> Akhirnya, dia menjadi satu-satunya pelari yang tersisa. Air mataku mengalir karena aku merasa terharu dan kagum pada keberaniannya.
+                <br> <br> Sorak-sorai penonton sudah tidak terdengar lagi. Namun, seorang pria berdiri sendirian dengan bangga menunggu kedatangan pelari terakhir. Ia memegang salah satu ujung pita kertas yang terikat pada tiang. Pelan-pelan, pelari terakhir melintasi garis finis tersebut. Kedua ujung pita kertas itu berkibar di belakangnya.
+                <br> <img src="g6_laririntangan.png" alt="Lari Rintangan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+                <br> Aku tidak tahu nama wanita itu. Tetapi sejak saat itu, dia menjadi bagian dari kehidupanku. Bagi wanita itu, maraton bukanlah tentang mengalahkan orang lain atau memenangkan piala. Ini tentang menyelesaikan apa yang sudah dimulainya. Saat kesulitan hidup melanda, aku teringat kepadanya.
+                 
+                </p>
+
+                <br> Sumber:
+                <br> <span style="color: blue;font-size: small;"> Diterjemahkan dengan perubahan, dari Lisa Beach. The Last Runner. Chicken Soup for the Preteen Soul (2000).
+            </div>
+
+            <br>Seorang pria berdiri di garis finis saat pelari terakhir melintas. Apa yang dilakukan pria itu?
+
+            <label class="opsi"><input type="radio" name="q13" value="A"> Berdiri menunggu kedatangan mobil ambulans. </label>
+            <label class="opsi"><input type="radio" name="q13" value="B"> Menyaksikan perjuangan para pelari maraton. </label>
+            <label class="opsi"><input type="radio" name="q13" value="C"> Mengikuti pelari terakhir dari belakang. </label>
+            <label class="opsi"><input type="radio" name="q13" value="D"> Memegang ujung pita kertas yang diikat ke tiang. </label>
+
+        </div>
+    </div>
+
+    
+    <div class="card">
+        <div class="soal"> 14. Perhatikan Cerita Berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">  Pelari Terakhir</div> 
+                <p class="teks-rapi"> 
+                Lomba maraton di kotaku biasanya diadakan setiap musim panas. Semua jalan raya yang dilalui para pelari akan ditutup. Hanya ambulans yang bisa melintas. Tugasku mengikuti pelari dari belakang sebagai petugas medis. Pak sopir dan aku berada di dalam mobil ambulans. Kami harus tetap berada di belakang pelari terakhir sampai garis finis.
+                <br> <br> Tanda memulai maraton terdengar. Para pelari terdepan mulai menjauh dari pandangan kami. Mataku tertuju pada wanita berbaju putih longgar dan celana biru.
+                <br> <br> "Pak, lihatlah itu," kataku sambil menunjuk wanita tersebut di depan kami.
+                <br><br> Kami sadar bahwa dia akan menjadi "pelari terakhir". Rambutnya beruban, postur tubuhnya tidak lagi tegap, dan kakinya sedikit pincang. Berjalan pun sudah tampak sulit. 
+                <br> <br> Pak sopir dan aku memperhatikan wanita itu. Kami akan bergerak maju sedikit. Lalu berhenti menjaga jarak darinya. Kemudian, kami maju lagi untuk terus mengikuti langkahnya. Aku ingin menghentikannya. Namun, pada saat yang sama, aku juga berdoa agar dia terus maju. 
+                <br> <br> Akhirnya, dia menjadi satu-satunya pelari yang tersisa. Air mataku mengalir karena aku merasa terharu dan kagum pada keberaniannya.
+                <br> <br> Sorak-sorai penonton sudah tidak terdengar lagi. Namun, seorang pria berdiri sendirian dengan bangga menunggu kedatangan pelari terakhir. Ia memegang salah satu ujung pita kertas yang terikat pada tiang. Pelan-pelan, pelari terakhir melintasi garis finis tersebut. Kedua ujung pita kertas itu berkibar di belakangnya.
+                <br> <img src="g6_laririntangan.png" alt="Lari Rintangan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+                <br> Aku tidak tahu nama wanita itu. Tetapi sejak saat itu, dia menjadi bagian dari kehidupanku. Bagi wanita itu, maraton bukanlah tentang mengalahkan orang lain atau memenangkan piala. Ini tentang menyelesaikan apa yang sudah dimulainya. Saat kesulitan hidup melanda, aku teringat kepadanya.
+                 
+                </p>
+
+                <br> Sumber:
+                <br> <span style="color: blue;font-size: small;"> Diterjemahkan dengan perubahan, dari Lisa Beach. The Last Runner. Chicken Soup for the Preteen Soul (2000).
+            </div>
+            <br> <br> Dalam cerita, ada seorang wanita tua yang ikut berlomba. Bagaimana sikap tokoh Aku setelah mengetahuinya?
+                     
+            <br><span style="color: blue;">Klik Pada pilihan Benar atau Salah untuk setiap pernyataan berikut! </span>        
+        
+         <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td>Terharu melihat perjuangan wanita tua yang memiliki kondisi terbatas. </td><td class="center"><input type="radio" name="q14_1" value="B"></td><td class="center"><input type="radio" name="q14_1" value="S"></td></tr>
+            <tr><td>Bangga menunggu kedatangan wanita tua melintasi garis finis.</td><td class="center"><input type="radio" name="q14_2" value="B"></td><td class="center"><input type="radio" name="q14_2" value="S"></td></tr>
+            <tr><td>Terinspirasi oleh keteguhan wanita tua menghadapi tantangan maraton. </td><td class="center"><input type="radio" name="q14_3" value="B"></td><td class="center"><input type="radio" name="q14_3" value="S"></td></tr>
+         </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal">15. Perhatikan cerita berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">  Pelari Terakhir</div> 
+                <p class="teks-rapi"> 
+                Lomba maraton di kotaku biasanya diadakan setiap musim panas. Semua jalan raya yang dilalui para pelari akan ditutup. Hanya ambulans yang bisa melintas. Tugasku mengikuti pelari dari belakang sebagai petugas medis. Pak sopir dan aku berada di dalam mobil ambulans. Kami harus tetap berada di belakang pelari terakhir sampai garis finis.
+                <br> <br> Tanda memulai maraton terdengar. Para pelari terdepan mulai menjauh dari pandangan kami. Mataku tertuju pada wanita berbaju putih longgar dan celana biru.
+                <br> <br> "Pak, lihatlah itu," kataku sambil menunjuk wanita tersebut di depan kami.
+                <br><br> Kami sadar bahwa dia akan menjadi "pelari terakhir". Rambutnya beruban, postur tubuhnya tidak lagi tegap, dan kakinya sedikit pincang. Berjalan pun sudah tampak sulit. 
+                <br> <br> Pak sopir dan aku memperhatikan wanita itu. Kami akan bergerak maju sedikit. Lalu berhenti menjaga jarak darinya. Kemudian, kami maju lagi untuk terus mengikuti langkahnya. Aku ingin menghentikannya. Namun, pada saat yang sama, aku juga berdoa agar dia terus maju. 
+                <br> <br> Akhirnya, dia menjadi satu-satunya pelari yang tersisa. Air mataku mengalir karena aku merasa terharu dan kagum pada keberaniannya.
+                <br> <br> Sorak-sorai penonton sudah tidak terdengar lagi. Namun, seorang pria berdiri sendirian dengan bangga menunggu kedatangan pelari terakhir. Ia memegang salah satu ujung pita kertas yang terikat pada tiang. Pelan-pelan, pelari terakhir melintasi garis finis tersebut. Kedua ujung pita kertas itu berkibar di belakangnya.
+                <br> <img src="g6_laririntangan.png" alt="Lari Rintangan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+                <br> Aku tidak tahu nama wanita itu. Tetapi sejak saat itu, dia menjadi bagian dari kehidupanku. Bagi wanita itu, maraton bukanlah tentang mengalahkan orang lain atau memenangkan piala. Ini tentang menyelesaikan apa yang sudah dimulainya. Saat kesulitan hidup melanda, aku teringat kepadanya.
+                 
+                </p>
+
+                <br> Sumber:
+                <br> <span style="color: blue;font-size: small;"> Diterjemahkan dengan perubahan, dari Lisa Beach. The Last Runner. Chicken Soup for the Preteen Soul (2000).
+            </div>
+            <br> <br> Mengapa penulis meletakkan gambar sebelum paragraf terakhir dalam cerita?
+            <br><span style="color: blue;">Klik Pada pilihan Benar atau Salah untuk setiap pernyataan berikut! </span>        
+
+        <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td> Menunjukkan gambaran fisik wanita tua yang mengikuti lomba maraton.</td><td class="center"><input type="radio" name="q15_1" value="B"></td><td class="center"><input type="radio" name="q15_1" value="S"></td></tr>
+            <tr><td>Membantu pembaca membayangkan momen pelari terakhir melintasi garis finis. </td><td class="center"><input type="radio" name="q15_2" value="B"></td><td class="center"><input type="radio" name="q15_2" value="S"></td></tr>
+            <tr><td> Memperkuat pesan bahwa menyelesaikan sesuatu yang telah dimulai adalah berharga.</td><td class="center"><input type="radio" name="q15_3" value="B"></td><td class="center"><input type="radio" name="q15_3" value="S"></td></tr>
+        </table>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal">16 . Perhatikan cerita berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">  Pelari Terakhir</div> 
+                <p class="teks-rapi"> 
+                Lomba maraton di kotaku biasanya diadakan setiap musim panas. Semua jalan raya yang dilalui para pelari akan ditutup. Hanya ambulans yang bisa melintas. Tugasku mengikuti pelari dari belakang sebagai petugas medis. Pak sopir dan aku berada di dalam mobil ambulans. Kami harus tetap berada di belakang pelari terakhir sampai garis finis.
+                <br> <br> Tanda memulai maraton terdengar. Para pelari terdepan mulai menjauh dari pandangan kami. Mataku tertuju pada wanita berbaju putih longgar dan celana biru.
+                <br> <br> "Pak, lihatlah itu," kataku sambil menunjuk wanita tersebut di depan kami.
+                <br><br> Kami sadar bahwa dia akan menjadi "pelari terakhir". Rambutnya beruban, postur tubuhnya tidak lagi tegap, dan kakinya sedikit pincang. Berjalan pun sudah tampak sulit. 
+                <br> <br> Pak sopir dan aku memperhatikan wanita itu. Kami akan bergerak maju sedikit. Lalu berhenti menjaga jarak darinya. Kemudian, kami maju lagi untuk terus mengikuti langkahnya. Aku ingin menghentikannya. Namun, pada saat yang sama, aku juga berdoa agar dia terus maju. 
+                <br> <br> Akhirnya, dia menjadi satu-satunya pelari yang tersisa. Air mataku mengalir karena aku merasa terharu dan kagum pada keberaniannya.
+                <br> <br> Sorak-sorai penonton sudah tidak terdengar lagi. Namun, seorang pria berdiri sendirian dengan bangga menunggu kedatangan pelari terakhir. Ia memegang salah satu ujung pita kertas yang terikat pada tiang. Pelan-pelan, pelari terakhir melintasi garis finis tersebut. Kedua ujung pita kertas itu berkibar di belakangnya.
+                <br> <img src="g6_laririntangan.png" alt="Lari Rintangan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+                <br> Aku tidak tahu nama wanita itu. Tetapi sejak saat itu, dia menjadi bagian dari kehidupanku. Bagi wanita itu, maraton bukanlah tentang mengalahkan orang lain atau memenangkan piala. Ini tentang menyelesaikan apa yang sudah dimulainya. Saat kesulitan hidup melanda, aku teringat kepadanya.
+                 
+                </p>
+
+                <br> Sumber:
+                <br> <span style="color: blue;font-size: small;"> Diterjemahkan dengan perubahan, dari Lisa Beach. The Last Runner. Chicken Soup for the Preteen Soul (2000).
+            </div>
+       
+            Istilah eksploitasi dalam paragraf keempat bermakna …
+            <label class="opsi"><input type="radio" name="q16" value="A"> pemanfaatan berlebihan yang dapat merusak lingkungan </label>
+            <label class="opsi"><input type="radio" name="q16" value="B"> perlindungan budaya masyarakat Baduy yang telah rusak </label>
+            <label class="opsi"><input type="radio" name="q16" value="C"> pengelolaan sumber daya alam yang mengancam lingkungan </label>
+            <label class="opsi"><input type="radio" name="q16" value="D"> penggunaan sumber daya alam secara terbatas namun berisiko </label>
+        </div>
+    </div>
+   
+    <div class="card"> 
+        <div class="soal">17. Perhatikan teks laporan berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">Laporan Observasi: Kehidupan Tradisional dan Alam di Desa Baduy</div>
+                <p class="teks-rapi">
+                    Desa Baduy terletak di Kabupaten Lebak, Banten. Desa ini memiliki komunitas adat yang lestari. Mereka hidup sederhana dan harmonis dengan alam. Tradisi ini masih dipertahankan hingga saat ini. Masyarakat Baduy terbagi menjadi dua kelompok, yaitu Baduy Dalam dan Baduy Luar.
+                    Keduanya masih memegang teguh adat istiadat dan filosofi leluhur.
+                
+                </p>
+                 
+                <p class="teks-rapi">
+                    Masyarakat Baduy Dalam, tinggal di wilayah yang lebih terpencil. Mereka tidak terpengaruh oleh teknologi modern. Kehidupan mereka diatur dengan aturan adat yang ketat. Pakaian khas yang digunakan terbuat dari bahan alami. Pola hidup mereka juga mengikuti prinsip-prinsip keberlanjutan ekosistem. Pertanian organik menjadi salah satu cara mereka menjaga kelestarian alam. Alam merupakan sumber daya utama bagi kehidupan mereka.
+                </p>
+                
+                <p class="teks-rapi">
+                    Kelompok Baduy Luar lebih terbuka terhadap pengaruh luar. Namun, mereka tetap menjaga nilai-nilai adat. Mereka rutin melaksanakan upacara adat, seperti Sedekah Bumi. Upacara ini menjadi bentuk rasa syukur atas hasil pertanian. Hal ini juga dilakukan untuk menjaga hubungan harmonis antara manusia dan alam.   
+                </p>
+                
+                <p class="teks-rapi">
+                    Masyarakat Baduy memiliki tradisi yang kaya dan unik. Namun, kawasan ini menghadapi berbagai tantangan. Pembangunan yang pesat mulai mengancam kelestarian alam sekitar. Selain itu, eksploitasi sumber daya alam di sekitar wilayah Baduy semakin meningkat. Banyak pihak yang tertarik mengakses sumber daya alam tersebut. Hal ini berisiko merusak keseimbangan budaya dan lingkungan mereka.  
+                </p>
+                <p>sumber:</p>
+                <p style="color: blue;font-size: small;">https://kumparan.com/syalsa-raya/hidup-bersama-alam-kehidupan-tradisional-baduy-yang-berkelanjutan-21z9WYFRsow/2
+                https://bantenlife.com/tradisi-kehidupan-suku-baduy-harmoni-dengan-alam-dan-kearifan-lokal/</p>
+            </div>
+            <p> Kerangka yang tepat berdasarkan informasi dalam teks adalah ….</p>
+            <label class="opsi"><input type="radio" name="q17" value="A"> <img src="pilihan17a.png" alt="pilihana" style="width: 80%;"> </label>
+            <label class="opsi"><input type="radio" name="q17" value="B"> <img src="pilihan17b.png" alt="pilihana" style="width: 80%;"> </label>
+            <label class="opsi"><input type="radio" name="q17" value="C"> <img src="pilihan17c.png" alt="pilihana" style="width: 80%;"> </label>
+            <label class="opsi"><input type="radio" name="q17" value="D"> <img src="pilihan17d.png" alt="pilihana" style="width: 80%;"> </label>
+        </div>
+    </div>
+   
+
+     <div class="card"> 
+        <div class="soal">18. Perhatikan teks laporan berikut ini:
+            <div class="stimulus">
+                <div class="judul-teks">Laporan Observasi: Kehidupan Tradisional dan Alam di Desa Baduy</div>
+                <p class="teks-rapi">
+                    Desa Baduy terletak di Kabupaten Lebak, Banten. Desa ini memiliki komunitas adat yang lestari. Mereka hidup sederhana dan harmonis dengan alam. Tradisi ini masih dipertahankan hingga saat ini. Masyarakat Baduy terbagi menjadi dua kelompok, yaitu Baduy Dalam dan Baduy Luar.
+                    Keduanya masih memegang teguh adat istiadat dan filosofi leluhur.
+                
+                </p>
+                 
+                <p class="teks-rapi">
+                    Masyarakat Baduy Dalam, tinggal di wilayah yang lebih terpencil. Mereka tidak terpengaruh oleh teknologi modern. Kehidupan mereka diatur dengan aturan adat yang ketat. Pakaian khas yang digunakan terbuat dari bahan alami. Pola hidup mereka juga mengikuti prinsip-prinsip keberlanjutan ekosistem. Pertanian organik menjadi salah satu cara mereka menjaga kelestarian alam. Alam merupakan sumber daya utama bagi kehidupan mereka.
+                </p>
+                
+                <p class="teks-rapi">
+                    Kelompok Baduy Luar lebih terbuka terhadap pengaruh luar. Namun, mereka tetap menjaga nilai-nilai adat. Mereka rutin melaksanakan upacara adat, seperti Sedekah Bumi. Upacara ini menjadi bentuk rasa syukur atas hasil pertanian. Hal ini juga dilakukan untuk menjaga hubungan harmonis antara manusia dan alam.   
+                </p>
+                
+                <p class="teks-rapi">
+                    Masyarakat Baduy memiliki tradisi yang kaya dan unik. Namun, kawasan ini menghadapi berbagai tantangan. Pembangunan yang pesat mulai mengancam kelestarian alam sekitar. Selain itu, eksploitasi sumber daya alam di sekitar wilayah Baduy semakin meningkat. Banyak pihak yang tertarik mengakses sumber daya alam tersebut. Hal ini berisiko merusak keseimbangan budaya dan lingkungan mereka.  
+                </p>
+                <p>sumber:</p>
+                <p style="color: blue;font-size: small;">https://kumparan.com/syalsa-raya/hidup-bersama-alam-kehidupan-tradisional-baduy-yang-berkelanjutan-21z9WYFRsow/2
+                https://bantenlife.com/tradisi-kehidupan-suku-baduy-harmoni-dengan-alam-dan-kearifan-lokal/</p>
+            </div>
+            <p>Paragraf 2 dan 3 membahas pelestarian adat dan lingkungan masyarakat Baduy. Bagaimana hubungan isi kedua paragraf tersebut dengan paragraf 4?</p>
+            <p style="color: blue;">Klik pada setiap jawaban benar! Jawaban benar lebih dari satu.</p>
+                        
+            <label class="opsi"><input type="checkbox" name="q18" value="1"> Pembangunan pesat mengancam keberlanjutan alam dan budaya. </label>
+            <label class="opsi"><input type="checkbox" name="q18" value="2"> Penggunaan sumber daya alam yang berlebihan bisa membahayakan. </label>
+            <label class="opsi"><input type="checkbox" name="q18" value="3"> Masyarakat di wilayah Baduy berpotensi mengancam kelestarian alam.  </label>
+            <label class="opsi"><input type="checkbox" name="q18" value="4"> Upaya pelestarian menghadapi tantangan dari faktor eksternal.  </label>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 19. Perhatikan cerita berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Bola Bekel Dinda</div>
+                <p class="teks-rapi">Sarah baru pulang sekolah. Ia berniat menuju ke kamar. Di ruang keluarga, terlihat Mama sedang asyik mengobrol dengan Tante Mira. Mbok Ginah datang untuk mengantarkan makanan dan minuman.
+                    <br> Mama memanggil Sarah saat melihat kedatangannya. 
+                    <br> Sarah menghampiri Mama dan memberi salam kepada Tante Mira. 
+                </p>
+
+                <p>“Kak Sarah!” tiba-tiba Dinda, anak Tante Mira, memanggilnya. Gadis kelas 5 SD itu tersenyum lebar.</p>
+                <p>“Kak Sarah! Ayo, temani aku main bekel!” ajak Dinda.</p>
+                <p>“Bekel?” tanya Sarah sambil mengernyitkan dahinya.</p>
+                <p>“Kak Sarah sudah SMP, tapi tidak tahu bekel?” Dinda balik bertanya.</p>
+                Dinda memperlihatkan mainan yang diletakkannya di lantai.
+                <p>“Ini namanya bola bekel,” jelas Dinda sambil mengambil satu bola karet kecil.</p>
+                <p>“Nah, kalau yang ini, namanya biji bekel,” tambahnya seraya meraup enam mainan kecil berbentuk unik yang terbuat dari logam.</p>
+                
+                Sarah ikut memegang dan mengamati bola bekel beserta biji bekelnya.
+                
+                <p>“Aku sering memainkannya bersama Mama. Kata Mama daripada main game online,” cerita Dinda.</p>
+               
+                 Deg! Sarah serasa ditampar. Ucapan Dinda itu benar.
+                    
+                    <p>“Ajarin Kak Sarah cara main bekel, dong!” pinta Sarah, menutupi rasa malunya.</p>
+                    <p>“Begini caranya, Kak!” Dinda bersemangat mengajari Sarah.</p>
+                    <p>“Aku coba, ya!” pinta Sarah. Dia penasaran.</p>
+                <p class="teks-rapi"> 
+                    Pertama kali melontarkan bola bekel, Sarah sudah harus mengambilnya ke ruang tamu. Bola bekel itu menggelinding ke sana. Namun, Sarah jadi makin penasaran dan mencoba terus walaupun gagal berkali-kali. Dinda bertepuk tangan menyemangati Sarah.
+                </p>
+                <p>“Susah juga, ya!” ujar Sarah.</p>
+                <p>“Nanti lama-lama juga bisa, Kak!” kata Dinda.<p>
+                <p class="teks-rapi">
+                Sarah berniat mencari informasi lebih jelas tentang permainan ini. Dia akan belajar main bekel sampai bisa. Dinda saja bisa, dia juga pasti bisa.
+                </p>
+            </div>
+            <p>Siapa yang sedang asyik mengobrol dengan Mama di ruang keluarga?</p>
+            <label class="opsi"><input type="radio" name="q19" value="A"> Dinda. </label>
+            <label class="opsi"><input type="radio" name="q19" value="B"> Sarah. </label>
+            <label class="opsi"><input type="radio" name="q19" value="C"> Tante Mira.  </label>
+            <label class="opsi"><input type="radio" name="q19" value="D"> Mbok Ginah. </label>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 20. Perhatikan cerita berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Bola Bekel Dinda</div>
+                <p class="teks-rapi">Sarah baru pulang sekolah. Ia berniat menuju ke kamar. Di ruang keluarga, terlihat Mama sedang asyik mengobrol dengan Tante Mira. Mbok Ginah datang untuk mengantarkan makanan dan minuman.
+                    <br> Mama memanggil Sarah saat melihat kedatangannya. 
+                    <br> Sarah menghampiri Mama dan memberi salam kepada Tante Mira. 
+                </p>
+
+                <p>“Kak Sarah!” tiba-tiba Dinda, anak Tante Mira, memanggilnya. Gadis kelas 5 SD itu tersenyum lebar.</p>
+                <p>“Kak Sarah! Ayo, temani aku main bekel!” ajak Dinda.</p>
+                <p>“Bekel?” tanya Sarah sambil mengernyitkan dahinya.</p>
+                <p>“Kak Sarah sudah SMP, tapi tidak tahu bekel?” Dinda balik bertanya.</p>
+                Dinda memperlihatkan mainan yang diletakkannya di lantai.
+                <p>“Ini namanya bola bekel,” jelas Dinda sambil mengambil satu bola karet kecil.</p>
+                <p>“Nah, kalau yang ini, namanya biji bekel,” tambahnya seraya meraup enam mainan kecil berbentuk unik yang terbuat dari logam.</p>
+                
+                Sarah ikut memegang dan mengamati bola bekel beserta biji bekelnya.
+                
+                <p>“Aku sering memainkannya bersama Mama. Kata Mama daripada main game online,” cerita Dinda.</p>
+               
+                 Deg! Sarah serasa ditampar. Ucapan Dinda itu benar.
+                    
+                    <p>“Ajarin Kak Sarah cara main bekel, dong!” pinta Sarah, menutupi rasa malunya.</p>
+                    <p>“Begini caranya, Kak!” Dinda bersemangat mengajari Sarah.</p>
+                    <p>“Aku coba, ya!” pinta Sarah. Dia penasaran.</p>
+                <p class="teks-rapi"> 
+                    Pertama kali melontarkan bola bekel, Sarah sudah harus mengambilnya ke ruang tamu. Bola bekel itu menggelinding ke sana. Namun, Sarah jadi makin penasaran dan mencoba terus walaupun gagal berkali-kali. Dinda bertepuk tangan menyemangati Sarah.
+                </p>
+                <p>“Susah juga, ya!” ujar Sarah.</p>
+                <p>“Nanti lama-lama juga bisa, Kak!” kata Dinda.<p>
+                <p class="teks-rapi">
+                Sarah berniat mencari informasi lebih jelas tentang permainan ini. Dia akan belajar main bekel sampai bisa. Dinda saja bisa, dia juga pasti bisa.
+                </p>
+            </div>
+            <p>Bagaimana sifat yang ditunjukkan Dinda berdasarkan cerita tersebut?</p>
+           <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+           
+           <label class="opsi"><input type="checkbox" name="q20" value="1"> Pantang menyerah. </label>
+            <label class="opsi"><input type="checkbox" name="q20" value="2"> Percaya diri. </label>
+            <label class="opsi"><input type="checkbox" name="q20" value="3"> Suportif.  </label>
+            <label class="opsi"><input type="checkbox" name="q20" value="4"> Optimis. </label>   
+           
+       
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 21. Perhatikan cerita berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Bola Bekel Dinda</div>
+                <p class="teks-rapi">Sarah baru pulang sekolah. Ia berniat menuju ke kamar. Di ruang keluarga, terlihat Mama sedang asyik mengobrol dengan Tante Mira. Mbok Ginah datang untuk mengantarkan makanan dan minuman.
+                    <br> Mama memanggil Sarah saat melihat kedatangannya. 
+                    <br> Sarah menghampiri Mama dan memberi salam kepada Tante Mira. 
+                </p>
+
+                <p>“Kak Sarah!” tiba-tiba Dinda, anak Tante Mira, memanggilnya. Gadis kelas 5 SD itu tersenyum lebar.</p>
+                <p>“Kak Sarah! Ayo, temani aku main bekel!” ajak Dinda.</p>
+                <p>“Bekel?” tanya Sarah sambil mengernyitkan dahinya.</p>
+                <p>“Kak Sarah sudah SMP, tapi tidak tahu bekel?” Dinda balik bertanya.</p>
+                Dinda memperlihatkan mainan yang diletakkannya di lantai.
+                <p>“Ini namanya bola bekel,” jelas Dinda sambil mengambil satu bola karet kecil.</p>
+                <p>“Nah, kalau yang ini, namanya biji bekel,” tambahnya seraya meraup enam mainan kecil berbentuk unik yang terbuat dari logam.</p>
+                
+                Sarah ikut memegang dan mengamati bola bekel beserta biji bekelnya.
+                
+                <p>“Aku sering memainkannya bersama Mama. Kata Mama daripada main game online,” cerita Dinda.</p>
+               
+                 Deg! Sarah serasa ditampar. Ucapan Dinda itu benar.
+                    
+                    <p>“Ajarin Kak Sarah cara main bekel, dong!” pinta Sarah, menutupi rasa malunya.</p>
+                    <p>“Begini caranya, Kak!” Dinda bersemangat mengajari Sarah.</p>
+                    <p>“Aku coba, ya!” pinta Sarah. Dia penasaran.</p>
+                <p class="teks-rapi"> 
+                    Pertama kali melontarkan bola bekel, Sarah sudah harus mengambilnya ke ruang tamu. Bola bekel itu menggelinding ke sana. Namun, Sarah jadi makin penasaran dan mencoba terus walaupun gagal berkali-kali. Dinda bertepuk tangan menyemangati Sarah.
+                </p>
+                <p>“Susah juga, ya!” ujar Sarah.</p>
+                <p>“Nanti lama-lama juga bisa, Kak!” kata Dinda.<p>
+                <p class="teks-rapi">
+                Sarah berniat mencari informasi lebih jelas tentang permainan ini. Dia akan belajar main bekel sampai bisa. Dinda saja bisa, dia juga pasti bisa.
+                </p>
+            </div>
+            <p>Apa yang mungkin terjadi jika Dinda tidak mengajak Sarah bermain?</p>
+            <span style="color: blue;">Klik Pada pilihan Benar atau Salah untuk setiap pernyataan berikut! </span>        
+
+         <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td>Sarah tidak akan tahu cara bermain bola bekel. </td><td class="center"><input type="radio" name="q21_1" value="B"></td><td class="center"><input type="radio" name="q21_1" value="S"></td></tr>
+            <tr><td>Sarah tetap akan sering bermain game online. </td><td class="center"><input type="radio" name="q21_2" value="B"></td><td class="center"><input type="radio" name="q21_2" value="S"></td></tr>
+            <tr><td>Sarah akan mencari informasi tentang bola beke </td><td class="center"><input type="radio" name="q21_3" value="B"></td><td class="center"><input type="radio" name="q21_3" value="S"></td></tr>
+        </table>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="soal">  23. Perhatikan teks pidato berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Pidato Pagi</div>
+               <p>Yang terhormat Bapak dan Ibu Guru.<br>
+                Yang saya banggakan murid-murid sekalian.</p>
+
+                <p>Puji dan syukur kita panjatkan kepada Tuhan Yang Maha Esa.<br>
+                Kita dapat berkumpul dalam keadaan sehat di pagi ini.</p>
+
+                <p>Bapak Ibu guru dan murid-murid sekalian, saat ini kita hidup di era informasi.<br>
+                Informasi mudah diakses melalui internet dan media sosial.<br>
+                Namun, tidak semua informasi tersebut benar.<br>
+                Sebagian informasi tersebut disebut hoaks.</p>
+
+                <p>Hoaks adalah informasi palsu yang menyesatkan.
+                Hoaks dapat berbentuk teks, gambar, atau video.<br>
+                Judul hoaks biasanya bersifat provokatif.<br>
+                Tujuannya agar pembaca segera menyebarkannya.<br>
+                Penyebaran hoaks dapat merugikan banyak orang.</p>
+
+                <p>Sebagai kepala sekolah, saya mengingatkan kita semua perlu literasi informasi.<br>
+                Literasi informasi berarti menilai informasi secara kritis.<br>
+                Kita semua harus memeriksa sumber informasi.<br>
+                Kita juga perlu membandingkan beberapa sumber terpercaya.<br>
+                Informasi belum jelas sebaiknya tidak disebarkan.</p>
+
+                <p>Bersikap kritis adalah tanggung jawab kita bersama.<br>
+                Teknologi harus digunakan untuk menambah pengetahuan.</p>
+
+                <p>Akhir kata saya sampaikan, “Mari bijak dalam bermedia sosial!”</p>
+
+                <p>Demikian pidato ini saya sampaikan.<br>
+                Semoga bisa menjadi perenungan untuk kita semua.</p>
+
+            </div>
+
+		<p>Kepada siapakah pidato tersebut ditujukan?</p>
+         <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q22" value="1"> Murid. </label>
+        <label class="opsi"><input type="checkbox" name="q22" value="2"> Guru.  </label>
+        <label class="opsi"><input type="checkbox" name="q22" value="3"> Pembaca.  </label>
+        <label class="opsi"><input type="checkbox" name="q22" value="4"> Kepala Sekolah. </label>
+     </div> 
+   </div>
+
+    <div class="card">
+        <div class="soal"> 23. Perhatikan teks pidato berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Pidato Pagi</div>
+               <p>Yang terhormat Bapak dan Ibu Guru.<br>
+                Yang saya banggakan murid-murid sekalian.</p>
+
+                <p>Puji dan syukur kita panjatkan kepada Tuhan Yang Maha Esa.<br>
+                Kita dapat berkumpul dalam keadaan sehat di pagi ini.</p>
+
+                <p>Bapak Ibu guru dan murid-murid sekalian, saat ini kita hidup di era informasi.<br>
+                Informasi mudah diakses melalui internet dan media sosial.<br>
+                Namun, tidak semua informasi tersebut benar.<br>
+                Sebagian informasi tersebut disebut hoaks.</p>
+
+                <p>Hoaks adalah informasi palsu yang menyesatkan.
+                Hoaks dapat berbentuk teks, gambar, atau video.<br>
+                Judul hoaks biasanya bersifat provokatif.<br>
+                Tujuannya agar pembaca segera menyebarkannya.<br>
+                Penyebaran hoaks dapat merugikan banyak orang.</p>
+
+                <p>Sebagai kepala sekolah, saya mengingatkan kita semua perlu literasi informasi.<br>
+                Literasi informasi berarti menilai informasi secara kritis.<br>
+                Kita semua harus memeriksa sumber informasi.<br>
+                Kita juga perlu membandingkan beberapa sumber terpercaya.<br>
+                Informasi belum jelas sebaiknya tidak disebarkan.</p>
+
+                <p>Bersikap kritis adalah tanggung jawab kita bersama.<br>
+                Teknologi harus digunakan untuk menambah pengetahuan.</p>
+
+                <p>Akhir kata saya sampaikan, “Mari bijak dalam bermedia sosial!”</p>
+
+                <p>Demikian pidato ini saya sampaikan.<br>
+                Semoga bisa menjadi perenungan untuk kita semua.</p>
+
+            </div>
+        <p>Pesan apa yang ingin disampaikan melalui pidato tersebut?</p>
+        
+        <span style="color: blue;">Klik Pada pilihan Benar atau Salah untuk setiap pernyataan berikut! </span>        
+        <table>
+            <tr><th> Pernyataan</th><th>B</th><th>S</th></tr>
+            <tr><td>Kedisiplinan dalam menyebarkan berita dari berbagai media. </td><td class="center"><input type="radio" name="q23_1" value="B"></td><td class="center"><input type="radio" name="q23_1" value="S"></td></tr>
+            <tr><td>Tanggung jawab sebagai pribadi dalam bermedia sosial. </td><td class="center"><input type="radio" name="q23_2" value="B"></td><td class="center"><input type="radio" name="q23_2" value="S"></td></tr>
+            <tr><td>Kesadaran diri untuk memilah informasi dari dunia maya. </td><td class="center"><input type="radio" name="q23_3" value="B"></td><td class="center"><input type="radio" name="q23_3" value="S"></td></tr>
+        </table>
+
+	 </div> 
+   </div>
+
+    <div class="card">
+        <div class="soal"> 24. Perhatikan teks pidato berikut!
+            <div class="stimulus">
+                <div class="judul-teks">Pidato Pagi</div>
+               <p>Yang terhormat Bapak dan Ibu Guru.<br>
+                Yang saya banggakan murid-murid sekalian.</p>
+
+                <p>Puji dan syukur kita panjatkan kepada Tuhan Yang Maha Esa.<br>
+                Kita dapat berkumpul dalam keadaan sehat di pagi ini.</p>
+
+                <p>Bapak Ibu guru dan murid-murid sekalian, saat ini kita hidup di era informasi.<br>
+                Informasi mudah diakses melalui internet dan media sosial.<br>
+                Namun, tidak semua informasi tersebut benar.<br>
+                Sebagian informasi tersebut disebut hoaks.</p>
+
+                <p>Hoaks adalah informasi palsu yang menyesatkan.
+                Hoaks dapat berbentuk teks, gambar, atau video.<br>
+                Judul hoaks biasanya bersifat provokatif.<br>
+                Tujuannya agar pembaca segera menyebarkannya.<br>
+                Penyebaran hoaks dapat merugikan banyak orang.</p>
+
+                <p>Sebagai kepala sekolah, saya mengingatkan kita semua perlu literasi informasi.<br>
+                Literasi informasi berarti menilai informasi secara kritis.<br>
+                Kita semua harus memeriksa sumber informasi.<br>
+                Kita juga perlu membandingkan beberapa sumber terpercaya.<br>
+                Informasi belum jelas sebaiknya tidak disebarkan.</p>
+
+                <p>Bersikap kritis adalah tanggung jawab kita bersama.<br>
+                Teknologi harus digunakan untuk menambah pengetahuan.</p>
+
+                <p>Akhir kata saya sampaikan, “Mari bijak dalam bermedia sosial!”</p>
+
+                <p>Demikian pidato ini saya sampaikan.<br>
+                Semoga bisa menjadi perenungan untuk kita semua.</p>
+
+            </div>
+            <p>Judul pidato tersebut masih sangat umum. Judul mana yang lebih sesuai untuk menggantikan judul pidato tersebut?</p>
+            <label class="opsi"><input type="radio" name="q24" value="A">Mengenal Hoaks di Lingkungan Sekolah. </label>
+            <label class="opsi"><input type="radio" name="q24" value="B"> Cara Membedakan Hoaks dalam Media Sosial. </label>
+            <label class="opsi"><input type="radio" name="q24" value="C"> Literasi Informasi sebagai Benteng Melawan Hoaks. </label>
+            <label class="opsi"><input type="radio" name="q24" value="D"> Peran Sekolah dalam Literasi Informasi kepada Murid. </label>  
+        
+	 </div> 
+   </div>
+
+   <div class="card"> 
+        <div class="soal"> 25. Bacalah teks artikel berikut ini!
+	     <div class="stimulus">
+		        <div class="judul-teks">Peluang Karier di Sektor Hijau</div>
+                <p class="teks-rapi">
+                Transisi energi tidak hanya mengubah sumber daya energi. Hal ini juga menciptakan banyak peluang karier baru. Peluang tersebut khususnya di sektor hijau atau green jobs. Menurut International Labour Organization (ILO), akan ada 24 juta pekerjaan baru di sektor hijau pada tahun 2030. Ini terjadi karena transisi menuju energi baru dan terbarukan (EBT). Ada laporan terbaru dari International Renewable Energy Agency (IRENA) berjudul “Renewable Energy and Jobs: Annual Review 2023”. Laporan itu mencatat jumlah pekerja di sektor EBT terus meningkat setiap tahunnya.
+                </p>
+                <p class="teks-rapi">
+                Pada tahun 2018, IRENA mencatat ada 11,1 juta pekerja di sektor EBT. Jumlah ini terus bertambah. Pada tahun 2022 mencapai 13,8 juta. Hal tersebut menunjukkan komitmen global untuk mengurangi ketergantungan pada sumber energi konvensional. Dunia beralih ke energi yang lebih ramah lingkungan. Green jobs memiliki beberapa aspek yang bisa dilihat pada gambar berikut.
+                </p>
+                <img src="g8_lingkungan.png" alt="isu lingkungan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+         </div>  
+            
+         <p>Contoh <i>green jobs</i> di kawasan Asia Pasifik yang disebutkan dalam teks adalah ….</p>
+            <label class="opsi"><input type="radio" name="q25" value="A"> <i>start-up</i> manajemen limbah</label>
+            <label class="opsi"><input type="radio" name="q25" value="B"> desainer fesyen berkelanjutan  </label>
+            <label class="opsi"><input type="radio" name="q25" value="C"> teknisi sistem energi matahari  </label>
+            <label class="opsi"><input type="radio" name="q25" value="D"> peneliti transportasi ramah lingkungan </label>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 26. Bacalah teks artikel berikut ini!
+	     <div class="stimulus">
+		        <div class="judul-teks">Peluang Karier di Sektor Hijau</div>
+                <p class="teks-rapi">
+                Transisi energi tidak hanya mengubah sumber daya energi. Hal ini juga menciptakan banyak peluang karier baru. Peluang tersebut khususnya di sektor hijau atau green jobs. Menurut International Labour Organization (ILO), akan ada 24 juta pekerjaan baru di sektor hijau pada tahun 2030. Ini terjadi karena transisi menuju energi baru dan terbarukan (EBT). Ada laporan terbaru dari International Renewable Energy Agency (IRENA) berjudul “Renewable Energy and Jobs: Annual Review 2023”. Laporan itu mencatat jumlah pekerja di sektor EBT terus meningkat setiap tahunnya.
+                </p>
+                <p class="teks-rapi">
+                Pada tahun 2018, IRENA mencatat ada 11,1 juta pekerja di sektor EBT. Jumlah ini terus bertambah. Pada tahun 2022 mencapai 13,8 juta. Hal tersebut menunjukkan komitmen global untuk mengurangi ketergantungan pada sumber energi konvensional. Dunia beralih ke energi yang lebih ramah lingkungan. Green jobs memiliki beberapa aspek yang bisa dilihat pada gambar berikut.
+                </p>
+                <img src="g8_lingkungan.png" alt="isu lingkungan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+         </div>  
+            
+         <p>Mengapa <i>urban farming</i> cocok sebagai awal karier green jobs bagi milenial kota?</p>
+            <label class="opsi"><input type="radio" name="q26" value="A"> Meningkatkan nilai estetika perkotaan dan peluang penghasilan milenial.</label>
+            <label class="opsi"><input type="radio" name="q26" value="B"> Mengajarkan milenial teknik bercocok tanam yang ramah lingkungan.  </label>
+            <label class="opsi"><input type="radio" name="q26" value="C"> Menggunakan lahan yang luas sehingga mudah dilakukan oleh milenial.  </label>
+            <label class="opsi"><input type="radio" name="q26" value="D"> Memberi pengalaman milenial dalam manajemen limbah perkotaan. </label>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 27. Bacalah teks artikel berikut ini!
+	     <div class="stimulus">
+		        <div class="judul-teks">Peluang Karier di Sektor Hijau</div>
+                <p class="teks-rapi">
+                Transisi energi tidak hanya mengubah sumber daya energi. Hal ini juga menciptakan banyak peluang karier baru. Peluang tersebut khususnya di sektor hijau atau green jobs. Menurut International Labour Organization (ILO), akan ada 24 juta pekerjaan baru di sektor hijau pada tahun 2030. Ini terjadi karena transisi menuju energi baru dan terbarukan (EBT). Ada laporan terbaru dari International Renewable Energy Agency (IRENA) berjudul “Renewable Energy and Jobs: Annual Review 2023”. Laporan itu mencatat jumlah pekerja di sektor EBT terus meningkat setiap tahunnya.
+                </p>
+                <p class="teks-rapi">
+                Pada tahun 2018, IRENA mencatat ada 11,1 juta pekerja di sektor EBT. Jumlah ini terus bertambah. Pada tahun 2022 mencapai 13,8 juta. Hal tersebut menunjukkan komitmen global untuk mengurangi ketergantungan pada sumber energi konvensional. Dunia beralih ke energi yang lebih ramah lingkungan. Green jobs memiliki beberapa aspek yang bisa dilihat pada gambar berikut.
+                </p>
+                <img src="g8_lingkungan.png" alt="isu lingkungan" style="width: 100%;max-width: 400px;margin: 10px 0;">
+         </div>  
+            
+         <p>Apa yang membuat data dalam teks tersebut bisa dipercaya?</p>
+            <label class="opsi"><input type="radio" name="q27" value="A"> Mencantumkan laporan spesifik dan tahun publikasi dari lembaga resmi ternama. </label>
+            <label class="opsi"><input type="radio" name="q27" value="B"> Menyebutkan nama perusahaan besar yang terlibat dalam sektor energi terbarukan.  </label>
+            <label class="opsi"><input type="radio" name="q27" value="C"> Berasal dari pengalaman pribadi penulis yang sangat berpengalaman di bidangnya. </label>
+            <label class="opsi"><input type="radio" name="q27" value="D"> Memuat wawancara dengan beberapa individu yang bekerja di sektor energi terbarukan. </label>
+        </div>
+    </div>
+    
+    <div class="card"> 
+        <div class="soal"> 28. Perhatikan teks berikut ini!
+            <div class="stimulus">
+                    
+                    <div class="judul-teks"> Kuliner Ayam Panggang Dorong Perekonomian Desa Sragi, Ponorogo </div>
+                    <img src="g9_ayambakar.png" alt="Ayam Panggang" style="width: 100%; max-width: 400px;margin: 10px 0;">
+                    <p class="teks-rapi">
+                    Kabupaten Ponorogo kini memiliki destinasi kuliner yang menarik wisatawan. Berlokasi di Desa Sragi, Kecamatan Sukorejo. Kawasan Dadapan menawarkan ayam panggang bercita rasa tradisional. Suasana pedesaan yang asri juga menambah daya tarik pengunjung. 
+                    </p>
+                    <p class="teks-rapi">
+                    Ayam panggang di kawasan ini diolah menggunakan ayam kampung pilihan. Ayam dipanggang di atas bara kayu dengan suhu terjaga. Proses pemanggangan tradisional tersebut menghasilkan aroma khas. Selain itu, juga menghasilkan tekstur daging yang lunak. Ayam kemudian disajikan dengan bumbu santan dan rempah-rempah. Bumbu terdiri dari cabai, bawang, dan kemiri. Kombinasi ini menghasilkan rasa gurih dan pedas.
+                    Kehadiran kuliner ini memberikan dampak positif bagi perekonomian warga Desa Sragi. Area Dadapan yang sepi kini ramai dikunjungi wisatawan. Mereka menikmati sajian dan keramahan desa, terutama pada akhir pekan. Seorang warga setempat mengatakan, “Meningkatnya jumlah pengunjung mendorong warga membuka usaha kecil untuk menambah penghasilan.”
+                    </p>
+                    <p class="teks-rapi">
+                    Banyak yang tertarik pada cita rasa ayam panggang tersebut. Mereka berasal dari luar daerah Sragi. “Daging ayamnya mudah dikunyah dan bumbunya meresap. Rasanya sangat kaya bumbu,” ujar seorang pengunjung. Sajian ini dapat dinikmati oleh berbagai kalangan. Hal tersebut menunjukkan peran kuliner tradisional dalam mendukung perekonomian desa. Selain itu, menarik minat wisatawan untuk berkunjung.
+                    </p>
+
+                    Sumber: <p style="color: blue;font-size: small;">https://banjar.times.co.id/news/berita/Tvz7VcY9l/Menelusuri-Aroma-Asap-Desa-Sragi-Ayam-Panggang-Dadapan-Jadi-Magnet-Baru-Kuliner-Ponorogo dengan penyesuaian. </p>
+              </div>
+              <p>Istilah <i>perekonomian</i> pada paragraf ketiga di dalam teks digunakan untuk ….</p>
+           
+             <label class="opsi"><input type="radio" name="q28" value="A"> menunjukkan peluang warga menjual camilan dan minuman </label>
+            <label class="opsi"><input type="radio" name="q28" value="B"> menggambarkan suasana pedesaan yang ramai pengunjung </label>
+            <label class="opsi"><input type="radio" name="q28" value="C"> menjelaskan dampak pusat kuliner terhadap pendapatan warga </label>
+            <label class="opsi"><input type="radio" name="q28" value="D"> memperlihatkan cara memperoleh penghasilan pada akhir pekan </label>
+
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 29. Perhatikan teks berikut ini!
+            <div class="stimulus">
+                    
+                    <div class="judul-teks"> Kuliner Ayam Panggang Dorong Perekonomian Desa Sragi, Ponorogo </div>
+                    <img src="g9_ayambakar.png" alt="Ayam Panggang" style="width: 100%; max-width: 400px;margin: 10px 0;">
+                    <p class="teks-rapi">
+                    Kabupaten Ponorogo kini memiliki destinasi kuliner yang menarik wisatawan. Berlokasi di Desa Sragi, Kecamatan Sukorejo. Kawasan Dadapan menawarkan ayam panggang bercita rasa tradisional. Suasana pedesaan yang asri juga menambah daya tarik pengunjung. 
+                    </p>
+                    <p class="teks-rapi">
+                    Ayam panggang di kawasan ini diolah menggunakan ayam kampung pilihan. Ayam dipanggang di atas bara kayu dengan suhu terjaga. Proses pemanggangan tradisional tersebut menghasilkan aroma khas. Selain itu, juga menghasilkan tekstur daging yang lunak. Ayam kemudian disajikan dengan bumbu santan dan rempah-rempah. Bumbu terdiri dari cabai, bawang, dan kemiri. Kombinasi ini menghasilkan rasa gurih dan pedas.
+                    Kehadiran kuliner ini memberikan dampak positif bagi perekonomian warga Desa Sragi. Area Dadapan yang sepi kini ramai dikunjungi wisatawan. Mereka menikmati sajian dan keramahan desa, terutama pada akhir pekan. Seorang warga setempat mengatakan, “Meningkatnya jumlah pengunjung mendorong warga membuka usaha kecil untuk menambah penghasilan.”
+                    </p>
+                    <p class="teks-rapi">
+                    Banyak yang tertarik pada cita rasa ayam panggang tersebut. Mereka berasal dari luar daerah Sragi. “Daging ayamnya mudah dikunyah dan bumbunya meresap. Rasanya sangat kaya bumbu,” ujar seorang pengunjung. Sajian ini dapat dinikmati oleh berbagai kalangan. Hal tersebut menunjukkan peran kuliner tradisional dalam mendukung perekonomian desa. Selain itu, menarik minat wisatawan untuk berkunjung.
+                    </p>
+
+                    Sumber: <p style="color: blue;font-size: small;">https://banjar.times.co.id/news/berita/Tvz7VcY9l/Menelusuri-Aroma-Asap-Desa-Sragi-Ayam-Panggang-Dadapan-Jadi-Magnet-Baru-Kuliner-Ponorogo dengan penyesuaian. </p>
+              </div>
+              <p>Paragraf keempat menceritakan pengalaman pengunjung tentang cita rasa ayam panggang. Bagaimana paragraf kedua memperkuat pengalaman tersebut?</p>
+
+            <label class="opsi"><input type="radio" name="q29" value="A"> Menjelaskan penggunaan santan dan ayam yang menghasilkan rasa pedas. </label>
+            <label class="opsi"><input type="radio" name="q29" value="B"> Menegaskan keunikan rasa ayam panggang yang berbeda dari daerah lain. </label>
+            <label class="opsi"><input type="radio" name="q29" value="C"> Menggambarkan perpaduan rasa yang lezat dan suasana yang nyaman. </label>
+            <label class="opsi"><input type="radio" name="q29" value="D"> Menguraikan teknik pemanggangan dan bumbu ayam kampung pilihan. </label>
+        </div>
+    </div>
+
+    <div class="card"> 
+        <div class="soal"> 30. Perhatikan teks berikut ini!
+            <div class="stimulus">
+                    
+                    <div class="judul-teks"> Kuliner Ayam Panggang Dorong Perekonomian Desa Sragi, Ponorogo </div>
+                    <img src="g9_ayambakar.png" alt="Ayam Panggang" style="width: 100%; max-width: 400px;margin: 10px 0;">
+                    <p class="teks-rapi">
+                    Kabupaten Ponorogo kini memiliki destinasi kuliner yang menarik wisatawan. Berlokasi di Desa Sragi, Kecamatan Sukorejo. Kawasan Dadapan menawarkan ayam panggang bercita rasa tradisional. Suasana pedesaan yang asri juga menambah daya tarik pengunjung. 
+                    </p>
+                    <p class="teks-rapi">
+                    Ayam panggang di kawasan ini diolah menggunakan ayam kampung pilihan. Ayam dipanggang di atas bara kayu dengan suhu terjaga. Proses pemanggangan tradisional tersebut menghasilkan aroma khas. Selain itu, juga menghasilkan tekstur daging yang lunak. Ayam kemudian disajikan dengan bumbu santan dan rempah-rempah. Bumbu terdiri dari cabai, bawang, dan kemiri. Kombinasi ini menghasilkan rasa gurih dan pedas.
+                    Kehadiran kuliner ini memberikan dampak positif bagi perekonomian warga Desa Sragi. Area Dadapan yang sepi kini ramai dikunjungi wisatawan. Mereka menikmati sajian dan keramahan desa, terutama pada akhir pekan. Seorang warga setempat mengatakan, “Meningkatnya jumlah pengunjung mendorong warga membuka usaha kecil untuk menambah penghasilan.”
+                    </p>
+                    <p class="teks-rapi">
+                    Banyak yang tertarik pada cita rasa ayam panggang tersebut. Mereka berasal dari luar daerah Sragi. “Daging ayamnya mudah dikunyah dan bumbunya meresap. Rasanya sangat kaya bumbu,” ujar seorang pengunjung. Sajian ini dapat dinikmati oleh berbagai kalangan. Hal tersebut menunjukkan peran kuliner tradisional dalam mendukung perekonomian desa. Selain itu, menarik minat wisatawan untuk berkunjung.
+                    </p>
+
+                    Sumber: <p style="color: blue;font-size: small;">https://banjar.times.co.id/news/berita/Tvz7VcY9l/Menelusuri-Aroma-Asap-Desa-Sragi-Ayam-Panggang-Dadapan-Jadi-Magnet-Baru-Kuliner-Ponorogo dengan penyesuaian. </p>
+              </div>
+              <p>Setelah membaca teks tersebut, Alia berpendapat:<br>
+                “Wisatawan menyukai ayam panggang bukan hanya karena rasanya. Mereka juga mempertimbangkan aspek lainnya.”<br>
+                Alasan apa yang mendukung pendapat Alia tersebut?
+              </p>
+              <br> <span style="color: rgb(0, 170, 255);">Klik pada setiap jawaban yang benar! Jawaban benar lebih dari satu.</span>
+            
+        <label class="opsi"><input type="checkbox" name="q30" value="1"> Suasana desa yang nyaman dan alami. </label>
+        <label class="opsi"><input type="checkbox" name="q30" value="2"> Penyajian makanan yang sangat cepat. </label>
+        <label class="opsi"><input type="checkbox" name="q30" value="3"> Harga makanan yang relatif terjangkau.   </label>
+        <label class="opsi"><input type="checkbox" name="q30" value="4"> Pelayanan yang ramah dan menyenangkan. </label>
+
+
+            
+        </div>
+    </div>
+   
+
+
+    <button id="btn-selesai" onclick="hitungSkor()">SELESAI & LIHAT HASIL</button>
+
+</div>
+
+<div id="hasil-akhir">
+    <h1 id="skor-teks" style="font-size: 5em; color: #27ae60; margin: 0;">0</h1>
+    <p style="font-size: 1.5em;">Skor Anda</p>
+    <p id="deskripsi"></p>
+    
+</div>
+</div>
+
+
+<script>
+// 1. KONFIGURASI UTAMA
+// Pastikan KEY ini berbeda dengan ujian MATEMATIKA agar timer tidak bentrok
+const STORAGE_KEY = "sisa_waktu_ujian_bindo_v2"; 
+const JAWABAN_KEY = "jawaban_siswa_bindo_v2";
+const DURASI_MENIT = 70;
+
+document.addEventListener("DOMContentLoaded", function() {
+    const displayWaktu = document.getElementById('waktu-mundur');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // --- FITUR AUTO-RESET (ANTI LUPA) ---
+    // 1. Cek apakah ada perintah reset manual dari tombol "?reset=true"
+    const isResetAction = urlParams.has('reset');
+    
+    // 2. Cek apakah ini sesi browser baru (misal: baru buka Chrome setelah shutdown)
+    // sessionStorage akan hilang otomatis saat browser/tab ditutup sepenuhnya
+    const isNewSession = !sessionStorage.getItem("sesi_aktif");
+
+    // JIKA: Tombol reset diklik ATAU Browser baru dibuka (bukan sekadar refresh)
+    if (isResetAction || isNewSession) {
+        console.log("Memulai sesi ujian baru. Membersihkan data lama...");
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(JAWABAN_KEY);
+        
+        // Tandai bahwa sesi sekarang sedang aktif
+        // (Agar saat siswa menekan F5/Refresh, data TIDAK terhapus)
+        sessionStorage.setItem("sesi_aktif", "true");
+
+        // Bersihkan URL agar rapi
+        if (isResetAction) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+    // -------------------------------------
+
+    // A. LOGIKA TIMER
+    let sisaDetik = localStorage.getItem(STORAGE_KEY);
+    if (sisaDetik === null) {
+        sisaDetik = DURASI_MENIT * 60;
+        localStorage.setItem(STORAGE_KEY, sisaDetik);
+    } else {
+        sisaDetik = parseInt(sisaDetik);
+    }
+
+    window.intervalTimer = setInterval(function () {
+        if (sisaDetik <= 0) {
+            clearInterval(window.intervalTimer);
+            localStorage.removeItem(STORAGE_KEY);
+            if (displayWaktu) displayWaktu.innerText = "00:00:00";
+            alert("Waktu habis! Jawaban Anda akan terkirim otomatis.");
+            selesaiUjian(); // Panggil fungsi selesai
+        } else {
+            sisaDetik--;
+            localStorage.setItem(STORAGE_KEY, sisaDetik);
+            let h = Math.floor(sisaDetik / 3600);
+            let m = Math.floor((sisaDetik % 3600) / 60);
+            let s = sisaDetik % 60;
+            if(displayWaktu) {
+                displayWaktu.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+        }
+    }, 1000);
+
+    // B. GENERATE NAVIGASI SOAL (Sesuai struktur HTML Bapak)
+    const navGrid = document.getElementById('nav-grid');
+    if (navGrid) {
+        for (let i = 1; i <= 30; i++) {
+            let btn = document.createElement("div");
+            btn.classList.add("nav-item");
+            btn.id = "nav-soal-" + i;
+            btn.innerText = i;
+            btn.onclick = function() {
+                // Mencari elemen input q1, q2 dst
+                // Logic OR (||) ini penting untuk menangani soal q3_1, q3_2 dst (Soal BS)
+                const soalEl = document.querySelector(`[name="q${i}"]`) || document.querySelector(`[name="q${i}_1"]`);
+                if (soalEl) {
+                    soalEl.closest('.card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            };
+            navGrid.appendChild(btn);
+        }
+    }
+
+    // C. LOAD JAWABAN TERSIMPAN (Restore)
+    try {
+        const savedAnswers = JSON.parse(localStorage.getItem(JAWABAN_KEY));
+        if (savedAnswers) {
+            for (const [name, value] of Object.entries(savedAnswers)) {
+                if (Array.isArray(value)) {
+                    value.forEach(val => {
+                        const input = document.querySelector(`input[name="${name}"][value="${val}"]`);
+                        if (input) input.checked = true;
+                    });
+                } else {
+                    const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                    if (input) input.checked = true;
+                }
+                
+                // Warnai Navigasi saat diload
+                let nomorMatch = name.match(/\d+/);
+                if(nomorMatch) {
+                    const navItem = document.getElementById("nav-soal-" + nomorMatch[0]);
+                    if(navItem) navItem.classList.add("filled");
+                }
+            }
+        }
+    } catch (e) { console.error("Gagal load jawaban", e); }
+
+    // D. SIMPAN JAWABAN OTOMATIS (Auto-Save)
+    document.addEventListener("change", function(e) {
+        // Hanya simpan jika elemen yang berubah punya atribut 'name' (input soal)
+        if (e.target.name) { 
+            const semuaJawaban = JSON.parse(localStorage.getItem(JAWABAN_KEY)) || {};
+            const name = e.target.name;
+            
+            if (e.target.type === 'checkbox') {
+                const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+                semuaJawaban[name] = Array.from(checked).map(el => el.value);
+            } else {
+                semuaJawaban[name] = e.target.value;
+            }
+            
+            localStorage.setItem(JAWABAN_KEY, JSON.stringify(semuaJawaban));
+
+            // Update warna navigasi
+            let match = name.match(/q(\d+)/);
+            if (match) {
+                let navItem = document.getElementById("nav-soal-" + match[1]);
+                if (navItem) navItem.classList.add("filled");
+            }
+        }
+    });
+});
+
+// 2. FUNGSI SELESAI & HITUNG SKOR
+function selesaiUjian() {
+    // Validasi Identitas dulu
+    const nama = document.getElementById("nama-siswa").value;
+    const nis = document.getElementById("nis-siswa").value;
+    const kelas = document.getElementById("kelas-siswa").value;
+
+    if (!nama || !nis || !kelas) {
+        alert("Mohon lengkapi Nama, NIS, dan Kelas sebelum menyelesaikan ujian!");
+        return; // Stop, jangan lanjut
+    }
+
+    if (!confirm("Apakah Anda yakin ingin mengakhiri ujian?")) return;
+    
+    // Stop Timer
+    if (window.intervalTimer) clearInterval(window.intervalTimer);
+
+    let benar = 0;
+    
+    // KUNCI JAWABAN (Sesuai File Bapak)
+    const kunciPG = {"q1":"D","q5":"A", "q12":"B","q13":"B","q16":"A","q17":"B","q19":"C",
+                    "q24":"C","q25":"C" ,"q26":"B" ,"q27":"A","q28":"C","q29":"D"};
+    
+    for (let q in kunciPG) {
+        if(document.querySelector(`input[name="${q}"]:checked`)?.value === kunciPG[q]) benar++;
+    }
+
+    // KUNCI KOMPLEKS
+    if(checkMC("q2", ["1","3"])) benar++;
+    if(checkMC("q4", ["2","4"])) benar++;
+    if(checkMC("q7", ["1","2","4"])) benar++;
+    if(checkMC("q9", ["1","3","4"])) benar++;
+    if(checkMC("q10", ["2","3"])) benar++;
+    if(checkMC("q11", ["1","3"])) benar++;
+    if(checkMC("q18", ["1","2","4"])) benar++;
+    if(checkMC("q20", ["2","3"])) benar++;
+    if(checkMC("q22", ["1","3"])) benar++;
+    if(checkMC("q30", ["1","3","4"])) benar++;
+
+    // KUNCI BENAR SALAH
+    const kunciBS = {
+        "q3":["B","S","S"],"q6":["B","B","S"],"q8":["S","B","B"],"q14":["B","S","B"],"q15":["S","B","B"],
+        "q21":["B","B","S"],"q23":["S","B","B"],
+    };
+    
+    for (let q in kunciBS) {
+        if(checkBS(q, kunciBS[q])) benar++;
+    }
+
+    let nilai = Math.round((benar / 30) * 100);
+
+    // Tampilkan Hasil di Halaman (opsional, bisa disembunyikan jika rahasia)
+    document.getElementById("res-nama").innerText = nama;
+    document.getElementById("skor-teks").innerText = nilai;
+    
+    // Sembunyikan Soal, Tampilkan Kartu Nilai
+    const quizContent = document.getElementById("quiz-content");
+    const sidebar = document.querySelector(".sidebar");
+    
+    if(quizContent) quizContent.style.display = "none";
+    if(sidebar) sidebar.style.display = "none";
+    document.getElementById("hasil-akhir").style.display = "block";
+    
+    window.scrollTo({top: 0, behavior: 'smooth'});
+
+    // Kirim Data ke Google Sheet
+    kirimKeSheets(nama, nis, kelas, nilai);
+
+    // BERSIHKAN DATA SESI (Agar siswa berikutnya dianggap baru)
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(JAWABAN_KEY);
+    sessionStorage.removeItem("sesi_aktif");
+}
+
+function hitungSkor() {
+    // Fungsi ini dipanggil tombol "SELESAI"
+    selesaiUjian();
+}
+
+function resetUjian() {
+    if (confirm("Mulai ujian baru? Data jawaban dan waktu akan di-reset.")) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = window.location.pathname + "?reset=true";
+    }
+}
+
+// FUNGSI PEMBANTU
+function checkMC(name, kunci) {
+    let choices = Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value.trim());
+    if (choices.length !== kunci.length) return false;
+    return choices.sort().join(',') === kunci.sort().join(',');
+}
+
+function checkBS(namePrefix, kunci) {
+    let b1 = document.querySelector(`input[name="${namePrefix}_1"]:checked`)?.value === kunci[0];
+    let b2 = document.querySelector(`input[name="${namePrefix}_2"]:checked`)?.value === kunci[1];
+    let b3 = document.querySelector(`input[name="${namePrefix}_3"]:checked`)?.value === kunci[2];
+    return (b1 && b2 && b3);
+}
+
+function kirimKeSheets(nama, nis, kelas, skor) {
+    
+    const scriptURL ='https://script.google.com/macros/s/AKfycbx_OjpmWgrhDlNrfYq8wYZSM2x_MbvjORGXdEjgEE8HhnOQU7oo9juB8ps836iWj2d7/exec';    
+    const formulir = new URLSearchParams();
+    formulir.append('nama', nama);
+    formulir.append('nis', nis);
+    formulir.append('kelas', kelas);
+    formulir.append('skor', skor);
+    formulir.append('waktu', new Date().toLocaleString('id-ID'));
+    
+    fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: formulir })
+        .then(() => console.log("Data terkirim"))
+        .catch(error => console.error('Error kirim nilai:', error));
+}
+</script>
+
+</body>
+</html>
